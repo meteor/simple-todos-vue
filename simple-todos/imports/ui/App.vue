@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { Meteor } from "meteor/meteor";
 import Vue from "vue";
 import Task from "./Task.vue";
 import { Tasks } from "../api/tasks.js";
@@ -49,7 +50,9 @@ export default {
     handleSubmit(event) {
       Tasks.insert({
         text: this.newTask,
-        createdAt: new Date() // current time
+        createdAt: new Date(), // current time
+        owner: Meteor.userId(), // _id of logged in user
+        username: Meteor.user().username // username of logged in user
       });
 
       // Clear form
