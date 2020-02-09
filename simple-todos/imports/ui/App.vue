@@ -14,6 +14,8 @@
         Hide Completed Tasks
       </label>
 
+      <blaze-template template="loginButtons" tag="span"></blaze-template>
+
       <form className="new-task" @submit.prevent="handleSubmit">
         <input
           type="text"
