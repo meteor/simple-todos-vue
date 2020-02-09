@@ -64,6 +64,9 @@ export default {
         filteredTasks = filteredTasks.filter(task => !task.checked);
       }
       return filteredTasks;
+    },
+    incompleteCount() {
+      return Tasks.find({ checked: { $ne: true } }).count();
     }
   }
 };
