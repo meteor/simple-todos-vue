@@ -2,6 +2,13 @@
   <div className="container">
     <header>
       <h1>Todo List</h1>
+      <form className="new-task" @submit.prevent="handleSubmit">
+        <input
+          type="text"
+          placeholder="Type to add new tasks"
+          v-model="newTask"
+        />
+      </form>
     </header>
     <ul>
       <Task v-for="task in tasks" v-bind:key="task._id" v-bind:task="task" />
@@ -19,7 +26,9 @@ export default {
     Task
   },
   data() {
-    return {};
+    return {
+      newTask: ""
+    };
   },
   methods: {},
   meteor: {
