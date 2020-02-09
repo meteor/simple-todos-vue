@@ -30,7 +30,17 @@ export default {
       newTask: ""
     };
   },
-  methods: {},
+  methods: {
+    handleSubmit(event) {
+      Tasks.insert({
+        text: this.newTask,
+        createdAt: new Date() // current time
+      });
+
+      // Clear form
+      this.newTask = "";
+    }
+  },
   meteor: {
     tasks() {
       return Tasks.find({}).fetch();
