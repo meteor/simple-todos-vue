@@ -59,7 +59,11 @@ export default {
   },
   meteor: {
     tasks() {
-      return Tasks.find({}, { sort: { createdAt: -1 } }).fetch();
+      let filteredTasks = Tasks.find({}, { sort: { createdAt: -1 } }).fetch();
+      if (this.hideCompleted) {
+        filteredTasks = filteredTasks.filter(task => !task.checked);
+      }
+      return filteredTasks;
     }
   }
 };
