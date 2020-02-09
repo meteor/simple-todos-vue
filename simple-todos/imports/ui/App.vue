@@ -39,7 +39,8 @@ export default {
   },
   data() {
     return {
-      newTask: ""
+      newTask: "",
+      hideCompleted: false
     };
   },
   methods: {
