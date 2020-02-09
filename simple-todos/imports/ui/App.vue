@@ -43,7 +43,7 @@ export default {
   },
   meteor: {
     tasks() {
-      return Tasks.find({}).fetch();
+      return Tasks.find({}, { sort: { createdAt: -1 } }).fetch();
     }
   }
 };
