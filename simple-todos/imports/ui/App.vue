@@ -49,12 +49,7 @@ export default {
   },
   methods: {
     handleSubmit(event) {
-      Tasks.insert({
-        text: this.newTask,
-        createdAt: new Date(), // current time
-        owner: Meteor.userId(), // _id of logged in user
-        username: Meteor.user().username // username of logged in user
-      });
+      Meteor.call("tasks.insert", this.newTask);
 
       // Clear form
       this.newTask = "";
