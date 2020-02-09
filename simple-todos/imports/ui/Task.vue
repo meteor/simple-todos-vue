@@ -11,6 +11,12 @@
       @click="toggleChecked"
     />
 
+    <template v-if="this.showPrivateButton">
+      <button className="toggle-private" @click="togglePrivate">
+        {{ this.task.private ? "Private" : "Public" }}
+      </button>
+    </template>
+
     <span class="text">
       <strong>{{ this.task.username }}</strong
       >: {{ this.task.text }}
