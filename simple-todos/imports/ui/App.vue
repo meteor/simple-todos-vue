@@ -59,6 +59,10 @@ export default {
     }
   },
   meteor: {
+    $subscribe: {
+      // Subscribes to the 'threads' publication with no parameters
+      tasks: []
+    },
     tasks() {
       let filteredTasks = Tasks.find({}, { sort: { createdAt: -1 } }).fetch();
       if (this.hideCompleted) {
