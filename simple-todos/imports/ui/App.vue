@@ -52,6 +52,9 @@ export default {
 
       // Clear form
       this.newTask = "";
+    },
+    toggleHideCompleted() {
+      this.hideCompleted = !this.hideCompleted;
     }
   },
   meteor: {
