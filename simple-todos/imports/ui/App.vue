@@ -72,6 +72,9 @@ export default {
     },
     incompleteCount() {
       return Tasks.find({ checked: { $ne: true } }).count();
+    },
+    currentUser() {
+      return Meteor.user();
     }
   }
 };
