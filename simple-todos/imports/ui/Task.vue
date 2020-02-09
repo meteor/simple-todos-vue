@@ -44,6 +44,9 @@ export default {
     },
     deleteThisTask() {
       Meteor.call("tasks.remove", this.task._id);
+    },
+    togglePrivate() {
+      Meteor.call("tasks.setPrivate", this.task._id, !this.task.private);
     }
   }
 };
