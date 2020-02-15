@@ -2,6 +2,18 @@
   <div className="container">
     <header>
       <h1>Todo List</h1>
+
+      <label className="hide-completed">
+        <input
+          type="checkbox"
+          readOnly
+          checked="hideCompleted"
+          v-model="hideCompleted"
+          @click="toggleHideCompleted"
+        />
+        Hide Completed Tasks
+      </label>
+
       <form className="new-task" @submit.prevent="handleSubmit">
         <input
           type="text"
