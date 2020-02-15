@@ -22,7 +22,7 @@
 import { Tasks } from "../api/tasks.js";
 
 export default {
-  props: ["task"],
+  props: ["task", "showPrivateButton"],
   data() {
     return {};
   },
