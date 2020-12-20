@@ -1,9 +1,9 @@
 <template>
-  <div className="container">
+  <div class="container">
     <header>
       <h1>Todo List ({{ incompleteCount }})</h1>
 
-      <label className="hide-completed">
+      <label class="hide-completed">
         <input
           type="checkbox"
           readOnly
@@ -16,7 +16,7 @@
 
       <blaze-template template="loginButtons" tag="span"></blaze-template>
       <template v-if="currentUser">
-        <form className="new-task" @submit.prevent="handleSubmit">
+        <form class="new-task" @submit.prevent="handleSubmit">
           <input
             type="text"
             placeholder="Type to add new tasks"
