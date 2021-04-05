@@ -8,11 +8,10 @@
     "visualize": "meteor --production --extra-packages bundle-visualizer"
   },
   "dependencies": {
-    "@babel/runtime": "^7.7.6",
-    "classnames": "^2.2.6",
-    "jquery": "^3.4.1",
-    "meteor-node-stubs": "^1.0.0",
-    "vue": "^2.6.11",
+    "@babel/runtime": "^7.11.2",
+    "bcrypt": "^5.0.1",
+    "meteor-node-stubs": "^1.0.1",
+    "vue": "^2.6.12",
     "vue-meteor-tracker": "^2.0.0-beta.5"
   },
   "meteor": {
@@ -23,6 +22,6 @@
     "testModule": "tests/main.js"
   },
   "devDependencies": {
-    "chai": "^4.2.0"
+    "chai": "^4.3.4"
   }
 }

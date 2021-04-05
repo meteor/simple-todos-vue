@@ -1,86 +1,104 @@
 <template>
-  <div className="container">
+  <div class="app">
     <header>
-      <h1>Todo List ({{ incompleteCount }})</h1>
-
-      <label className="hide-completed">
-        <input
-          type="checkbox"
-          readOnly
-          checked="hideCompleted"
-          v-model="hideCompleted"
-          @click="toggleHideCompleted"
-        />
-        Hide Completed Tasks
-      </label>
-
-      <blaze-template template="loginButtons" tag="span"></blaze-template>
-      <template v-if="currentUser">
-        <form className="new-task" @submit.prevent="handleSubmit">
-          <input
-            type="text"
-            placeholder="Type to add new tasks"
-            v-model="newTask"
-          />
-        </form>
-      </template>
+      <div className="app-bar">
+        <div className="app-header">
+          <h1>
+            📝️ To Do List
+            <span v-if="incompleteCount > 0">({{incompleteCount}})</span>
+          </h1>
+        </div>
+      </div>
     </header>
-    <ul>
-      <Task
-        v-for="task in tasks"
-        v-bind:key="task._id"
-        v-bind:task="task"
-        v-bind:showPrivateButton="showPrivateButton(task)"
-      />
-    </ul>
+
+    <div class="main">
+      <template v-if="currentUser">
+        <div class="user" v-on:click="logout">
+          {{currentUser.username}} 🚪
+        </div>
+
+        <TaskForm />
+
+        <div class="filter">
+          <button
+              v-model="hideCompleted"
+              @click="toggleHideCompleted"
+          >
+            <span v-if="hideCompleted">Show All</span>
+            <span v-else>Hide Completed Tasks</span>
+          </button>
+        </div>
+
+        <div class="loading" v-if="!$subReady.tasks">Loading...</div>
+
+        <ul class="tasks">
+          <Task
+              class="task"
+              v-for="task in tasks"
+              v-bind:key="task._id"
+              v-bind:task="task"
+          />
+        </ul>
+      </template>
+
+      <template v-else>
+        <LoginForm />
+      </template>
+    </div>
   </div>
 </template>
 
 <script>
-import { Meteor } from "meteor/meteor";
 import Vue from "vue";
-import Task from "./Task.vue";
-import { Tasks } from "../api/tasks.js";
+import { Meteor } from 'meteor/meteor';
+import Task from "./components/Task.vue";
+import TaskForm from "./components/TaskForm.vue";
+import LoginForm from "./components/LoginForm";
+import { TasksCollection } from "../db/TasksCollection";
 
 export default {
   components: {
-    Task
+    Task,
+    TaskForm,
+    LoginForm
   },
   data() {
     return {
-      newTask: "",
       hideCompleted: false
     };
   },
   methods: {
-    handleSubmit(event) {
-      Meteor.call("tasks.insert", this.newTask);
-
-      // Clear form
-      this.newTask = "";
-    },
     toggleHideCompleted() {
       this.hideCompleted = !this.hideCompleted;
     },
-    showPrivateButton(task) {
-      const currentUserId = this.currentUser?._id;
-      return task.owner === currentUserId;
+    logout() {
+      Meteor.logout();
     }
   },
   meteor: {
     $subscribe: {
-      // Subscribes to the 'threads' publication with no parameters
-      tasks: []
+      'tasks': []
     },
     tasks() {
-      let filteredTasks = Tasks.find({}, { sort: { createdAt: -1 } }).fetch();
-      if (this.hideCompleted) {
-        filteredTasks = filteredTasks.filter(task => !task.checked);
+      if (!this.currentUser) {
+        return [];
       }
-      return filteredTasks;
+
+      const hideCompletedFilter = { isChecked: { $ne: true } };
+
+      const userFilter = this.currentUser ? { userId: this.currentUser._id } : {};
+
+      const pendingOnlyFilter = { ...hideCompletedFilter, ...userFilter };
+
+      return TasksCollection.find(
+          this.hideCompleted ? pendingOnlyFilter : userFilter,
+          {
+            sort: { createdAt: -1 },
+          }
+      ).fetch();
     },
     incompleteCount() {
-      return Tasks.find({ checked: { $ne: true } }).count();
+      return TasksCollection.find({ isChecked: { $ne: true }, userId: this.currentUser._id }).count();
     },
     currentUser() {
       return Meteor.user();
@@ -88,3 +106,5 @@ export default {
   }
 };
 </script>
+
+<style></style>

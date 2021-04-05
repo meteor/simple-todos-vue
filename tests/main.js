@@ -1,10 +1,9 @@
 import assert from "assert";
-import "../imports/api/tasks.tests.js";
 
-describe("simple-todos", function () {
+describe("Main", function () {
   it("package.json has correct name", async function () {
     const { name } = await import("../package.json");
-    assert.strictEqual(name, "simple-todos");
+    assert.strictEqual(name, "simple-todos-vue");
   });
 
   if (Meteor.isClient) {
@@ -19,3 +18,5 @@ describe("simple-todos", function () {
     });
   }
 });
+
+import '/imports/api/tasksMethods.tests.js';
